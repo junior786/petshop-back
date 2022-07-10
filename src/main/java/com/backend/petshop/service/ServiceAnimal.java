@@ -25,12 +25,12 @@ public class ServiceAnimal {
         Client client = this.clientRepository.findById(animal.getOwner())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Client nao encontrado"));
         Animal save = this.animalRepository.save(AnimalMapper.build(animal, client));
-//        client.getAnimals().add(save);
-//        this.clientRepository.save(client);
+        client.getAnimals().add(save);
+        this.clientRepository.save(client);
     }
 
-    public void deleteAnimal(Animal animal) {
-        this.animalRepository.delete(animal);
+    public void deleteAnimal(Integer animal) {
+        this.animalRepository.deleteById(animal);
     }
 
     public List<AnimalResponse> allAnimal() {

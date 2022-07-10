@@ -2,25 +2,23 @@ package com.backend.petshop.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-@Document
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-@Setter
-@Getter
-public class Client  implements Serializable {
+@Data
+@Entity
+public class Client implements Serializable {
     @Id
-    private  String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     @NotNull
     @NotBlank
     private String name;
@@ -35,11 +33,8 @@ public class Client  implements Serializable {
     @NotBlank
     @NotNull
     private String telephone;
-    @DBRef
-    private List<Animal> animals = new ArrayList<Animal>();
-
-
-
-
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "animal_id")
+    private List<Animal> animals;
 
 }

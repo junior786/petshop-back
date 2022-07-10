@@ -1,24 +1,23 @@
 package com.backend.petshop.domain;
 
 import lombok.*;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@Document
-@Getter
-@Setter
+@NoArgsConstructor
+@Data
 @AllArgsConstructor
 @Builder
 public class Scheduling {
-    @Id
-    private ObjectId id;
+    private Integer id;
     @NotBlank
     @NotNull
+
     private Animal animal;
     @NotBlank
     @NotNull

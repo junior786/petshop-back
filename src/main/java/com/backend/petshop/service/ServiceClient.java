@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,7 +24,7 @@ public class ServiceClient {
         this.clientRepository.save(client);
     }
 
-    public void deleteClient(String client) {
+    public void deleteClient(Integer client) {
         this.clientRepository.deleteById(client);
     }
 

@@ -25,4 +25,10 @@ public class AnimalController {
     public List<AnimalResponse> getAll(){
         return this.serviceAnimal.allAnimal();
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable Integer id){
+        this.serviceAnimal.deleteAnimal(id);
+    }
+
 }

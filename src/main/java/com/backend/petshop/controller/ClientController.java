@@ -26,7 +26,7 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable String id) {
+    public void delete(@PathVariable Integer id) {
         this.serviceClient.deleteClient(id);
     }
 

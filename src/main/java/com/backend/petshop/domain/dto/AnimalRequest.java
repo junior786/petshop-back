@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AnimalRequest {
-    @NotBlank
     @NotNull
     private String name;
     @NotBlank
@@ -31,7 +30,6 @@ public class AnimalRequest {
     @NotBlank
     @NotNull
     private String description;
-    @NotBlank
     @NotNull
-    private String owner;
+    private Integer owner;
 }
