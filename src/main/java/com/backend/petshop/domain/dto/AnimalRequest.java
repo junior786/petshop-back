@@ -30,6 +30,5 @@ public class AnimalRequest {
     @NotBlank
     @NotNull
     private String description;
-    @NotNull
     private Integer owner;
 }

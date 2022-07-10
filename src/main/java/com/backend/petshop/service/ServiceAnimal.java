@@ -4,9 +4,11 @@ import com.backend.petshop.domain.Animal;
 import com.backend.petshop.domain.Client;
 import com.backend.petshop.domain.dto.AnimalRequest;
 import com.backend.petshop.domain.dto.AnimalResponse;
+import com.backend.petshop.domain.dto.AnimalUpdateRequest;
 import com.backend.petshop.domain.mapper.AnimalMapper;
 import com.backend.petshop.repository.AnimalRepository;
 import com.backend.petshop.repository.ClientRepository;
+import com.backend.petshop.utils.UpdatesUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class ServiceAnimal {
     private final AnimalRepository animalRepository;
     private final ClientRepository clientRepository;
+    private final UpdatesUtils animalUtils;
+
 
     public void registerAnimal(AnimalRequest animal) {
         Client client = this.clientRepository.findById(animal.getOwner())
@@ -39,9 +43,16 @@ public class ServiceAnimal {
 
     }
 
-    public Animal selectById(Animal animal) {
-        return this.animalRepository.findById(animal.getId())
+    public Animal selectById(Integer animal) {
+        return this.animalRepository.findById(animal)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
+
+    public AnimalResponse updateAnimal(AnimalUpdateRequest animalRequest) {
+        Animal animal = this.selectById(animalRequest.getId());
+        return AnimalMapper
+                .buildAnimalResponse(this.animalRepository.save(this.animalUtils.AnimalUpdate(animalRequest, animal)));
+    }
+
 
 }

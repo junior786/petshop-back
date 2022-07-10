@@ -5,18 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
+import javax.validation.constraints.NotNull;
+
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimalResponse {
+@Data
+@Builder
+public class ClientRequest {
+    @NotNull
     private Integer id;
     private String name;
-    private String sex;
-    private String race;
-    private String type;
-    private String description;
-    private OwnerResponse Owner;
+    private String cpf;
+    private String email;
+    private String telephone;
 }
-
-

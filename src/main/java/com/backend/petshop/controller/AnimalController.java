@@ -1,8 +1,8 @@
 package com.backend.petshop.controller;
 
-import com.backend.petshop.domain.Animal;
 import com.backend.petshop.domain.dto.AnimalRequest;
 import com.backend.petshop.domain.dto.AnimalResponse;
+import com.backend.petshop.domain.dto.AnimalUpdateRequest;
 import com.backend.petshop.service.ServiceAnimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +29,11 @@ public class AnimalController {
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Integer id){
         this.serviceAnimal.deleteAnimal(id);
+    }
+
+    @PatchMapping
+    public AnimalResponse edit(@RequestBody @Valid AnimalUpdateRequest animalUpdateRequest) {
+        return this.serviceAnimal.updateAnimal(animalUpdateRequest);
     }
 
 }

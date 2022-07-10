@@ -1,7 +1,6 @@
 package com.backend.petshop.domain;
 
 import lombok.*;
-import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,7 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 @Entity
 public class Client implements Serializable {
     @Id
@@ -22,7 +22,6 @@ public class Client implements Serializable {
     @NotNull
     @NotBlank
     private String name;
-    @CPF
     @NotBlank
     @NotNull
     private String cpf;
@@ -33,7 +32,7 @@ public class Client implements Serializable {
     @NotBlank
     @NotNull
     private String telephone;
-    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "animal_id")
     private List<Animal> animals;
 

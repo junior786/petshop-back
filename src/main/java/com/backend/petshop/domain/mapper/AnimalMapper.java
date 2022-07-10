@@ -27,6 +27,7 @@ public class AnimalMapper {
 
         return AnimalResponse.builder()
                 .Owner(cliente)
+                .id(animal.getId())
                 .name(animal.getName())
                 .race(animal.getRace())
                 .description(animal.getDescription())
@@ -34,4 +35,5 @@ public class AnimalMapper {
                 .type(animal.getType())
                 .build();
     }
+
 }

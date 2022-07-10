@@ -1,6 +1,7 @@
 package com.backend.petshop.controller;
 
 import com.backend.petshop.domain.Client;
+import com.backend.petshop.domain.dto.ClientRequest;
 import com.backend.petshop.domain.dto.ClientResponse;
 import com.backend.petshop.service.ServiceClient;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,11 @@ public class ClientController {
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable Integer id) {
         this.serviceClient.deleteClient(id);
+    }
+
+    @PatchMapping
+    public ClientResponse edit(@RequestBody @Valid ClientRequest clientRequest){
+        return this.serviceClient.updateById(clientRequest);
     }
 
 }

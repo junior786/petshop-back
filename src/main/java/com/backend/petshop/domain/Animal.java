@@ -8,7 +8,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
+@Getter
+@Setter
 public class Animal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,7 +19,7 @@ public class Animal {
     private String race;
     private String type;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Client owner;
 
 
