@@ -2,32 +2,31 @@ package com.backend.petshop.domain;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor
-@Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
+@Getter
+@Setter
+@Entity
 public class Scheduling {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank
     @NotNull
-
+    @ManyToOne(fetch = FetchType.EAGER)
     private Animal animal;
-    @NotBlank
     @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
     private Client client;
     private LocalDateTime time;
-    @NotBlank
+    private String status;
     @NotNull
+    @Column(name = "procedure_info")
     private String procedure;
-    @NotBlank
     @NotNull
     private Double price;
-
 }

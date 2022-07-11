@@ -35,8 +35,8 @@ public class ServiceClient {
                 stream().map(ClientMapper::build).collect(Collectors.toList());
     }
 
-    public Client selectByClient(Client client) {
-        return this.clientRepository.findById(client.getId())
+    public Client selectByClient(Integer client) {
+        return this.clientRepository.findById(client)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 

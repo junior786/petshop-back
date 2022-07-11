@@ -3,6 +3,7 @@ package com.backend.petshop.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -19,8 +20,9 @@ public class Animal {
     private String race;
     private String type;
     private String description;
+    @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "scheduling_id")
+    private Set<Scheduling> schedulings;
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Client owner;
-
-
 }
