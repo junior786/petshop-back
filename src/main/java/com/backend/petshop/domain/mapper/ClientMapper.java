@@ -2,6 +2,7 @@ package com.backend.petshop.domain.mapper;
 
 import com.backend.petshop.domain.Client;
 import com.backend.petshop.domain.dto.ClientResponse;
+import com.backend.petshop.domain.dto.OwnerResponse;
 
 import java.util.stream.Collectors;
 
@@ -16,6 +17,13 @@ public class ClientMapper {
                 .name(client.getName())
                 .telephone(client.getTelephone())
                 .build();
+    }
 
+    public static OwnerResponse toOwner(Client client) {
+        return OwnerResponse.builder()
+                .name(client.getName())
+                .cpf(client.getCpf())
+                .id(client.getId())
+                .build();
     }
 }

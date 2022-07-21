@@ -1,10 +1,11 @@
 package com.backend.petshop.domain.dto;
 
-import com.backend.petshop.domain.Animal;
-import com.backend.petshop.domain.Client;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public class SchedulingRequest {
     @NotNull
     private Integer animal;
     @NotNull
-    private Integer client;
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime time;
     private String status;
     @NotNull

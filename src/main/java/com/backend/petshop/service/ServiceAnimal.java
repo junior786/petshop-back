@@ -6,6 +6,7 @@ import com.backend.petshop.domain.dto.AnimalRequest;
 import com.backend.petshop.domain.dto.AnimalResponse;
 import com.backend.petshop.domain.dto.AnimalUpdateRequest;
 import com.backend.petshop.domain.mapper.AnimalMapper;
+import com.backend.petshop.exception.NotFoundException;
 import com.backend.petshop.repository.AnimalRepository;
 import com.backend.petshop.repository.ClientRepository;
 import com.backend.petshop.utils.UpdatesUtils;
@@ -27,7 +28,7 @@ public class ServiceAnimal {
 
     public void registerAnimal(AnimalRequest animal) {
         Client client = this.clientRepository.findById(animal.getOwner())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Client nao encontrado"));
+                .orElseThrow(() -> new NotFoundException("ID not found " + animal.getOwner()));
         Animal save = this.animalRepository.save(AnimalMapper.build(animal, client));
         client.getAnimals().add(save);
         this.clientRepository.save(client);
@@ -40,12 +41,11 @@ public class ServiceAnimal {
     public List<AnimalResponse> allAnimal() {
         return this.animalRepository.findAll()
                 .stream().map(AnimalMapper::buildAnimalResponse).collect(Collectors.toList());
-
     }
 
     public Animal selectById(Integer animal) {
         return this.animalRepository.findById(animal)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException("ID not found " + animal));
     }
 
     public AnimalResponse updateAnimal(AnimalUpdateRequest animalRequest) {

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NotNull
 public class OwnerResponse {
+    private Integer id;
     private String name;
     private String cpf;
 }

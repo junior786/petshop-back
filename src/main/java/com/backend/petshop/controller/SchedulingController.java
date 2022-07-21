@@ -26,4 +26,10 @@ public class SchedulingController {
         return this.scheduling.save(schedulingRequest);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public void removeById(@PathVariable Integer id) {
+        this.scheduling.delete(id);
+    }
+
+
 }

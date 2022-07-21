@@ -2,13 +2,14 @@ package com.backend.petshop.domain.mapper;
 
 import com.backend.petshop.domain.Animal;
 import com.backend.petshop.domain.Client;
+import com.backend.petshop.domain.dto.AnimalOwner;
 import com.backend.petshop.domain.dto.AnimalRequest;
 import com.backend.petshop.domain.dto.AnimalResponse;
 import com.backend.petshop.domain.dto.OwnerResponse;
 
 public class AnimalMapper {
 
-    public static Animal build(AnimalRequest animalRequest, Client client){
+    public static Animal build(AnimalRequest animalRequest, Client client) {
         return Animal.builder()
                 .description(animalRequest.getDescription())
                 .owner(client)
@@ -21,6 +22,7 @@ public class AnimalMapper {
 
     public static AnimalResponse buildAnimalResponse(Animal animal) {
         OwnerResponse cliente = OwnerResponse.builder()
+                .id(animal.getOwner().getId())
                 .cpf(animal.getOwner().getCpf())
                 .name(animal.getOwner().getName())
                 .build();
@@ -33,6 +35,17 @@ public class AnimalMapper {
                 .description(animal.getDescription())
                 .sex(animal.getSex())
                 .type(animal.getType())
+                .build();
+    }
+
+    public static AnimalOwner toAnimalOwner(Animal animal) {
+        return AnimalOwner.builder()
+                .name(animal.getName())
+                .type(animal.getType())
+                .sex(animal.getSex())
+                .race(animal.getRace())
+                .description(animal.getDescription())
+                .id(animal.getId())
                 .build();
     }
 

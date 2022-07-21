@@ -4,6 +4,7 @@ import com.backend.petshop.domain.Client;
 import com.backend.petshop.domain.dto.ClientRequest;
 import com.backend.petshop.domain.dto.ClientResponse;
 import com.backend.petshop.domain.mapper.ClientMapper;
+import com.backend.petshop.exception.NotFoundException;
 import com.backend.petshop.repository.ClientRepository;
 import com.backend.petshop.utils.UpdatesUtils;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +38,12 @@ public class ServiceClient {
 
     public Client selectByClient(Integer client) {
         return this.clientRepository.findById(client)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException("ID not found " + client ));
     }
 
     public ClientResponse updateById(ClientRequest client) {
         Client find = this.clientRepository.findById(client.getId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException("ID not found " + client));
         return ClientMapper.build(this.clientRepository.save(this.clientUtils.clientUpdate(client, find)));
     }
 

@@ -14,8 +14,8 @@ public class MapperScheduling {
                 .price(scheduling.getPrice())
                 .procedure(scheduling.getProcedure())
                 .status(scheduling.getStatus())
-                .animal(AnimalMapper.buildAnimalResponse(scheduling.getAnimal()))
-                .client(ClientMapper.build(scheduling.getClient()))
+                .animal(AnimalMapper.toAnimalOwner(scheduling.getAnimal()))
+                .client(ClientMapper.toOwner(scheduling.getClient()))
                 .time(scheduling.getTime())
                 .build();
     }
