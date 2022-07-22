@@ -1,15 +1,18 @@
 package com.backend.petshop.service;
 
 import com.backend.petshop.domain.Animal;
-import com.backend.petshop.domain.Client;
 import com.backend.petshop.domain.dto.SchedulingRequest;
 import com.backend.petshop.domain.dto.SchedulingResponse;
 import com.backend.petshop.domain.mapper.MapperScheduling;
 import com.backend.petshop.repository.SchedulingRepository;
+import com.backend.petshop.utils.ComparationsDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,25 +22,22 @@ public class ServiceScheduling {
 
     private final SchedulingRepository schedulingRepository;
     private final ServiceAnimal serviceAnimal;
-
+    private final ComparationsDate dateComparation;
 
     public List<SchedulingResponse> findAll() {
         return this.schedulingRepository.findAll()
                 .stream()
-                .peek(scheduling -> {
-                    var date = "";
-                    date = String.valueOf(scheduling.getTime().getDayOfMonth());
-                    date += " / " + scheduling.getTime().getMonth().getValue();
-                    date += " " + scheduling.getTime().getHour();
-                    log.info("TEMPO {}", date);
-                })
                 .map(MapperScheduling::build)
                 .toList();
     }
 
     public SchedulingResponse save(SchedulingRequest request) {
         Animal animal = this.serviceAnimal.selectById(request.getAnimal());
-        log.info("Animal {} ", animal);
+        if (request.getTime().isBefore(LocalDateTime.now())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        this.schedulingRepository.findAll().forEach(scheduling ->
+                this.dateComparation.dateCompare(request.getTime(), scheduling.getTime()));
         request.setStatus("ATIVO");
         return MapperScheduling.
                 build(this.schedulingRepository
