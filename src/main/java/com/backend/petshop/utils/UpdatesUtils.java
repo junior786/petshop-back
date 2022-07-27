@@ -4,7 +4,10 @@ import com.backend.petshop.domain.Animal;
 import com.backend.petshop.domain.Client;
 import com.backend.petshop.domain.dto.AnimalUpdateRequest;
 import com.backend.petshop.domain.dto.ClientRequest;
+import com.backend.petshop.repository.ClientRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Objects;
 
@@ -25,6 +28,15 @@ public class UpdatesUtils {
             client.setTelephone(clientRequest.getTelephone());
         }
         return client;
+    }
+
+    public void clientValid(Client clientRequest, ClientRepository clientRepository) {
+       if (clientRepository.findAllByEmail(clientRequest.getEmail()).size() > 0) {
+         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+       }
+       if (clientRepository.findAllByCpf(clientRequest.getCpf()).size() > 0) {
+           throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+       }
     }
 
     public Animal AnimalUpdate(AnimalUpdateRequest animalUpdateRequest, Animal animal) {

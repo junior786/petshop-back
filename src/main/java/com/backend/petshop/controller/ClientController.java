@@ -13,12 +13,13 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "api/v1/client")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ClientController {
     private final ServiceClient serviceClient;
 
     @PostMapping
-    public void saveClient(@Valid @RequestBody Client client){
-        this.serviceClient.saveClient(client);
+    public Client saveClient(@Valid @RequestBody Client client){
+      return  this.serviceClient.saveClient(client);
     }
 
     @GetMapping

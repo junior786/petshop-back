@@ -22,9 +22,10 @@ public class ServiceClient {
     private final ClientRepository clientRepository;
     private final UpdatesUtils clientUtils;
 
-    public void saveClient(Client client) {
+    public Client saveClient(Client client) {
         client.setAnimals(new ArrayList<>(1));
-        this.clientRepository.save(client);
+        this.clientUtils.clientValid(client, clientRepository);
+        return this.clientRepository.save(client);
     }
 
     public void deleteClient(Integer client) {
