@@ -5,6 +5,9 @@ import com.backend.petshop.domain.dto.ClientRequest;
 import com.backend.petshop.domain.dto.ClientResponse;
 import com.backend.petshop.service.ServiceClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,8 +26,10 @@ public class ClientController {
     }
 
     @GetMapping
-    public List<ClientResponse> findAll() {
-        return this.serviceClient.allClient();
+    public Page<ClientResponse> findAll(@RequestParam(required = false) String cpf,
+                                        Pageable pageable) {
+        return this.serviceClient.allClient(cpf, pageable);
+
     }
 
     @DeleteMapping(value = "/{id}")
@@ -36,5 +41,6 @@ public class ClientController {
     public ClientResponse edit(@RequestBody @Valid ClientRequest clientRequest){
         return this.serviceClient.updateById(clientRequest);
     }
+
 
 }

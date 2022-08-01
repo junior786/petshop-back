@@ -8,16 +8,16 @@ import com.backend.petshop.exception.NotFoundException;
 import com.backend.petshop.repository.ClientRepository;
 import com.backend.petshop.utils.UpdatesUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ServiceClient {
     private final ClientRepository clientRepository;
     private final UpdatesUtils clientUtils;
@@ -32,14 +32,21 @@ public class ServiceClient {
         this.clientRepository.deleteById(client);
     }
 
-    public List<ClientResponse> allClient() {
-        return this.clientRepository.findAll().
-                stream().map(ClientMapper::build).collect(Collectors.toList());
+    public Page<ClientResponse> allClient(String cpf, Pageable pageable) {
+        Page<Client> all = this.clientRepository.findAll(pageable);
+        if (Objects.nonNull(cpf)) {
+            return new PageImpl<>(this.clientRepository.findByCpfContains(cpf).stream().map(ClientMapper::build)
+                    .toList(), pageable, all.getTotalElements());
+        }
+
+
+        return new PageImpl<>(all.stream().map(ClientMapper::build).toList(), pageable, all.getTotalElements());
+
     }
 
     public Client selectByClient(Integer client) {
         return this.clientRepository.findById(client)
-                .orElseThrow(() -> new NotFoundException("ID not found " + client ));
+                .orElseThrow(() -> new NotFoundException("ID not found " + client));
     }
 
     public ClientResponse updateById(ClientRequest client) {
@@ -47,5 +54,7 @@ public class ServiceClient {
                 .orElseThrow(() -> new NotFoundException("ID not found " + client));
         return ClientMapper.build(this.clientRepository.save(this.clientUtils.clientUpdate(client, find)));
     }
+
+
 
 }

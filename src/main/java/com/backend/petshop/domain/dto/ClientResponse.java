@@ -19,6 +19,7 @@ public class ClientResponse {
     private String cpf;
     private String email;
     private String telephone;
+    private String sex;
     private List<AnimalOwner> animal;
 
     public static AnimalOwner getAnimalOwner(Animal animal){

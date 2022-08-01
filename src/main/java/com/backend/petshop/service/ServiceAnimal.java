@@ -25,7 +25,7 @@ public class ServiceAnimal {
 
 
     public void registerAnimal(AnimalRequest animal) {
-        Client client = this.clientRepository.findById(animal.getOwner())
+        Client client = this.clientRepository.findByCpf(animal.getOwner())
                 .orElseThrow(() -> new NotFoundException("ID not found " + animal.getOwner()));
         Animal save = this.animalRepository.save(AnimalMapper.build(animal, client));
         client.getAnimals().add(save);

@@ -1,6 +1,7 @@
 package com.backend.petshop.domain;
 
 import lombok.*;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -33,6 +34,9 @@ public class Client implements Serializable {
     @NotBlank
     @NotNull
     private String telephone;
+    @NotBlank
+    @NotNull
+    private String sex;
     @OneToMany(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "scheduling_id")
     private Set<Scheduling> schedulings;

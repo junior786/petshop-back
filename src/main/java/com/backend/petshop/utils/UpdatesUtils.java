@@ -31,12 +31,12 @@ public class UpdatesUtils {
     }
 
     public void clientValid(Client clientRequest, ClientRepository clientRepository) {
-       if (clientRepository.findAllByEmail(clientRequest.getEmail()).size() > 0) {
-         throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-       }
-       if (clientRepository.findAllByCpf(clientRequest.getCpf()).size() > 0) {
-           throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-       }
+        if (clientRepository.findByEmail(clientRequest.getEmail()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        if (clientRepository.findByCpf(clientRequest.getCpf()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
     }
 
     public Animal AnimalUpdate(AnimalUpdateRequest animalUpdateRequest, Animal animal) {
